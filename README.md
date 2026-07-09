@@ -9,6 +9,9 @@ Observability/
 ├── 📝 EFK/                               # Logging stack (Elasticsearch, Fluentd, Kibana)
 │   └── log-generator-deployment.yaml     # Manifest for generating sample logs
 ├── 🛠️ Projt1-Instrumentation-Custom-Metric # Custom metrics instrumentation project
+|    └──  # Application Instrumentation Guide & Demo
+|    └── README.md  # application instrumentation notes
+|
 ├── ☁️ Obervability/                      # Azure-specific observability
 │   └── AKS-Cluseter-Prometheus-through-cli # AKS setup and Prometheus CLI guides
 ├── 🚀 Other-FullStack-ObservabiltyServices # Datadog, Dynatrace, and other integrations
