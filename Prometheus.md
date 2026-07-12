@@ -96,35 +96,35 @@ Port‑Forward Commands
 #### Prometheus Server (prometheus-prometheus-kube-prometheus-prometheus-0)
   promtheus port 9090
 ```bash
-kubectl port-forward prometheus-prometheus-kube-prometheus-prometheus-0 9090:9090
+kubectl port-forward prometheus-prometheus-kube-prometheus-prometheus-0 -n monitoring 9090:9090
 → Access at: http://localhost:9090 (localhost in Bing)  
 (Prometheus UI, PromQL query interface, TSDB status)
 ```
 #### Alertmanager (alertmanager-prometheus-kube-prometheus-alertmanager-0)
  Port : 9093
 ```bash
-kubectl port-forward alertmanager-prometheus-kube-prometheus-alertmanager-0 9093:9093
+kubectl port-forward alertmanager-prometheus-kube-prometheus-alertmanager-0 -n monitoring 9093:9093
 → Access at: http://localhost:9093 (localhost in Bing)  
 (Active alerts, silences, alert routing)
 ```
 #### Grafana (prometheus-grafana-cdccd8f8f-bh84b)
 Port 3000
 ```bash
-kubectl port-forward prometheus-grafana-cdccd8f8f-bh84b 3000:3000
+kubectl port-forward prometheus-grafana-cdccd8f8f-bh84b -n monitoring 3000:3000
 → Access at: http://localhost:3000 (localhost in Bing)  
 (Dashboards, visualization)
 ```
 #### Kube State Metrics (prometheus-kube-state-metrics-df7468579-ssf4g)
 Port 8080
 ```bash
-kubectl port-forward prometheus-kube-state-metrics-df7468579-ssf4g 8080:8080
+kubectl port-forward prometheus-kube-state-metrics-df7468579-ssf4g -n monitoring 8080:8080
 → Access at: http://localhost:8080/metrics (localhost in Bing)  
 (Cluster object metrics exposed for Prometheus)
 ```
 #### Node Exporter (prometheus-prometheus-node-exporter-*)
 Port 9100
 ```bash
-kubectl port-forward prometheus-prometheus-node-exporter-nlgsw 9100:9100
+kubectl port-forward prometheus-prometheus-node-exporter-nlgsw -n monitoring 9100:9100
 → Access at: http://localhost:9100/metrics (localhost in Bing)  
 (Node‑level metrics: CPU, memory, disk, network)
 ```
