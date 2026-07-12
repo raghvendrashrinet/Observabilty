@@ -42,3 +42,89 @@ The Prometheus Web UI allows users to explore the collected metrics data, run ad
 Grafana is a powerful dashboard and visualization tool that integrates with Prometheus to provide rich, customizable visualizations of the metrics data.
 ### API Clients
 API clients interact with Prometheus through its HTTP API to fetch data, query metrics, and integrate Prometheus with other systems or custom applications.
+
+## 📊 Prometheus Stack Architecture
+
+```mermaid
+ flowchart TD
+    subgraph Cluster["Kubernetes Cluster"]
+        subgraph Nodes["Worker Nodes"]
+            NodeExporter1["Node Exporter (DaemonSet)"]
+            NodeExporter2["Node Exporter (DaemonSet)"]
+            NodeExporter3["Node Exporter (DaemonSet)"]
+        end
+
+        KubeStateMetrics["Kube State Metrics (Deployment)"]
+        Prometheus["Prometheus Server"]
+        Alertmanager["Alertmanager"]
+        Grafana["Grafana"]
+        Operator["Prometheus Operator"]
+    end
+
+    %% Connections
+    NodeExporter1 --> Prometheus
+    NodeExporter2 --> Prometheus
+    NodeExporter3 --> Prometheus
+    KubeStateMetrics --> Prometheus
+
+    Prometheus --> Alertmanager
+    Prometheus --> Grafana
+
+    Operator --> Prometheus
+    Operator --> Alertmanager
+    Operator --> Grafana
+
+    subgraph External["External Clients"]
+        User["User / DevOps Engineer"]
+    end
+
+    User --> Grafana
+    User --> Alertmanager
+```
+
+### Prometheus Components
+
+1. Prometheus Server = scrapes + stores metrics (TSDB +PomQL).  (pod -> prometheus-prometheus-kube-prometheus-prometheus-0)
+2. Alertmanager = routes alerts. (pod -> alertmanager-prometheus-kube-prometheus-alertmanager-0)
+3. Grafana = visualizes.  (pod -> prometheus-grafana-*)
+4. Node Exporter / Kube State Metrics = provide metrics. ( pod for nodeExp (daemonset -> prometheus-prometheus-node-exporter-*) for Kubestate -> prometheus-kube-prometheus-operator-*)
+4. Prometheus Operator = manages all of the above declaratively.   (Pod -> prometheus-kube-prometheus-operator*)
+    It’s the “control plane” for the monitoring stack, not a metrics source itself.
+
+### Accesing Gui
+Port‑Forward Commands
+#### Prometheus Server (prometheus-prometheus-kube-prometheus-prometheus-0)
+  promtheus port 9090
+```bash
+kubectl port-forward prometheus-prometheus-kube-prometheus-prometheus-0 9090:9090
+→ Access at: http://localhost:9090 (localhost in Bing)  
+(Prometheus UI, PromQL query interface, TSDB status)
+```
+#### Alertmanager (alertmanager-prometheus-kube-prometheus-alertmanager-0)
+ Port : 9093
+```bash
+kubectl port-forward alertmanager-prometheus-kube-prometheus-alertmanager-0 9093:9093
+→ Access at: http://localhost:9093 (localhost in Bing)  
+(Active alerts, silences, alert routing)
+```
+#### Grafana (prometheus-grafana-cdccd8f8f-bh84b)
+Port 3000
+```bash
+kubectl port-forward prometheus-grafana-cdccd8f8f-bh84b 3000:3000
+→ Access at: http://localhost:3000 (localhost in Bing)  
+(Dashboards, visualization)
+```
+#### Kube State Metrics (prometheus-kube-state-metrics-df7468579-ssf4g)
+Port 8080
+```bash
+kubectl port-forward prometheus-kube-state-metrics-df7468579-ssf4g 8080:8080
+→ Access at: http://localhost:8080/metrics (localhost in Bing)  
+(Cluster object metrics exposed for Prometheus)
+```
+#### Node Exporter (prometheus-prometheus-node-exporter-*)
+Port 9100
+```bash
+kubectl port-forward prometheus-prometheus-node-exporter-nlgsw 9100:9100
+→ Access at: http://localhost:9100/metrics (localhost in Bing)  
+(Node‑level metrics: CPU, memory, disk, network)
+```
