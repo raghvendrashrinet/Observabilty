@@ -136,6 +136,12 @@ Once the telemetry data leaves your infrastructure, it is processed, indexed by 
 │  TRACE SOURCES  ├──────────────────>│  TEMPO / JAEGER  │─────┘     └────────────────────┘
 └─────────────────┘                   └──────────────────┘ LogQL / TraceQL
 ```
+### LGTM Stack Full Grafana Onservabilty stack (Metric+Log+Tracees)
+(Loki, Grafana, Tempo, and Mimir)
+- Grafana Mimir (The "M" in LGTM) — Metrics
+- Grafana Tempo (The "T" in LGTM) — Traces
+- Loki - Logs
+    
 ### The Storage Backends
 *   **Prometheus Engine:(Metric)** Stores metrics inside a custom Time Series Database (TSDB). Data is saved sequentially over time, enabling rapid trend calculations via **PromQL**.
 *   **Grafana Loki Engine:(logging)** A lightweight log aggregation system that only indexes metadata labels (like `app="auth"`), keeping storage costs low and search query speeds via **LogQL** incredibly fast.
@@ -147,12 +153,12 @@ Once the telemetry data leaves your infrastructure, it is processed, indexed by 
 ### Loging Stack
 centralized log management
 all three stacks (Loki, ELK, and EFK)
-1. Grafana Logging Stack : Grafana LGTM Stack—Loki, Grafana, Tempo, Mimir).
+1. **Grafana Logging Stack-Loki Stack**: Part of Grafana LGTM Stack—Loki, Grafana, Tempo, Mimir).
    Grafana Alloy (The Collector) + Grafana Loki (The Storage/Database) + Grafana (The Visualization)
+    (Promtail old one- Alloy new)
+2.  The **ELK Stack** ( Elastic Search + Logstash + Kibana )
 
-2.  The ELK Stack ( Elastic Search + Logstash + Kibana )
-
-3. The EFK Stack (  Elastic Search + Fluentbit + Kibana )
+3. The **EFK Stack** (  Elastic Search + Fluentbit + Kibana )
 
 ### Flow Diagram
  ##### 1. The Loki Stack (ALG / PLG)
