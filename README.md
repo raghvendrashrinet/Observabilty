@@ -230,9 +230,23 @@ The Kubernetes variant of ELK. Replaces Logstash with Fluentd or Fluent Bit to o
 | **The Database (Storage)** | Loki                                          | Elasticsearch                                 |
 | **The Node Collector (Agent)** | Alloy (or Promtail)                        | Filebeat (ELK) / Fluent Bit (EFK)             |
 | **The Central Parser (Optional)** | (None — Alloy sends straight to Loki)   | Logstash (ELK) / Fluentd (EFK)                |
-
-
 ---
+
+### Distributed Tracing Stack
+```
+[ Application ]  ➡️  [ OTel Collector ]  ➡️  [ Trace Database ]  ➡️  [ Visualization ]
+  (Instrumented         (Receives, filters       (Grafana Tempo /       (Grafana / Jaeger UI)
+   with OTel SDK)        & batches spans)         Jaeger Backend)
+```
+1. The Instrumentation Layer (The Generators) : OpenTelemetry (OTel) SDK
+2. The Collection & Routing Layer (The Pipeline) : OpenTelemetry Collector or Grafana Alloy
+3. The Storage Backend (The Database) : Grafana Tempo , Jaeger Backend
+4. The Visualization Layer (The UI) :  Grafana, Jaeger UI
+
+Modern Gold_standard tracing Stack
+
+$$\text{OpenTelemetry SDK (App Code)} \longrightarrow \text{OTel Collector} \longrightarrow \text{Grafana Tempo} \longrightarrow \text{Grafana UI}$$
+
 ##  Prometheus : How to Monitor : (Exporters & Collection)
 
 Prometheus collects metrics using a **pull model**, meaning it scrapes data from HTTP endpoints (usually `/metrics`). Because most infrastructure components and applications don't expose metrics in a Prometheus-compatible format natively, we use **Exporters** to translate internal data into a readable format.
