@@ -146,7 +146,12 @@ Once the telemetry data leaves your infrastructure, it is processed, indexed by 
 *   **Prometheus Engine:(Metric)** Stores metrics inside a custom Time Series Database (TSDB). Data is saved sequentially over time, enabling rapid trend calculations via **PromQL**.
 *   **Grafana Loki Engine:(logging)** A lightweight log aggregation system that only indexes metadata labels (like `app="auth"`), keeping storage costs low and search query speeds via **LogQL** incredibly fast.
 *   **Jaeger / Grafana Tempo:(Tracing)** Distributed tracing storage systems optimized for mapping high-volume transaction dependencies and tracking microservice latency timelines.
-
+---
+**Grafana Alloy** :combines the capabilities of metrics scraping, log forwarding, and distributed trace collection into a single binary,modern replacement for older collection agents like Promtail (for logs) and the Grafana Agent.
+  1. Gathers Metrics: Scrapes endpoints in Prometheus format, acts as an OpenTelemetry (OTLP) metrics receiver, and collects node stats.
+  2. ollects Logs: Tails log files directly from host paths (such as /var/log/pods), attaches Kubernetes metadata labels (e.g., namespace="default", pod="auth-service"), and streams them directly into Grafana Loki.
+  3. Receives Traces: Captures distributed trace spans from OpenTelemetry SDKs or Jaeger agents and forwards them to trace backends like Grafana Tempo.
+---
 #####  Unification Layer: Grafana (In the above stack)
 - Grafana serves as the single pane of glass. By cross-referencing your metadata labels across Prometheus, Loki, and Tempo, you can look at a metric error spike on a dashboard panel, click on the anomaly, immediately pull up the corresponding **Logs** for that millisecond, and pivot straight into a **Trace** to find the exact broken line of code.
 ---
